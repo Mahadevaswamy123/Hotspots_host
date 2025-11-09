@@ -5,7 +5,7 @@ It implements a 2-step onboarding flow where users can apply to become Hotspot h
 
 ---
 
-## ✅ Features
+##  Features
 
 ### 🔹 Screen 1 – Experience Selection
 - Fetches experiences via **Dio API**
@@ -29,7 +29,7 @@ It implements a 2-step onboarding flow where users can apply to become Hotspot h
 
 ---
 
-## 📦 Tech Stack
+##  Tech Stack
 
 | Area | Package |
 |-------|---------|
@@ -44,7 +44,7 @@ It implements a 2-step onboarding flow where users can apply to become Hotspot h
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 lib/
@@ -57,23 +57,23 @@ lib/
   utils/
 ```
 
-✅ Clean architecture, reusable UI components, no business logic inside widgets.
+ Clean architecture, reusable UI components, no business logic inside widgets.
 
 ---
 
-## ▶️ Running the App
+##  Running the App
 
 ```
 flutter pub get
 flutter run
 ```
 
-⚠️ **Important:** Audio & video recording will not work on emulator.  
+ **Important:** Audio & video recording will not work on emulator.  
 Test on a real Android/iOS device.
 
 ---
 
-## 🔐 Required Permissions
+##  Required Permissions
 
 ### Android
 `android/app/src/main/AndroidManifest.xml`  
@@ -89,7 +89,7 @@ Test on a real Android/iOS device.
 
 ---
 
-## 🚀 Submission Notes
+##  Submission Notes
 
 - ✅ UI uses modern dark glass theme, inspired by Figma but cleaned & improved
 - ✅ All interactions are smooth & state-safe
@@ -98,12 +98,10 @@ Test on a real Android/iOS device.
 
 ---
 
-## 👤 Developer
+##  Developer
 
 ```
-Name: YOUR NAME
-Email: YOUR EMAIL
-LinkedIn: OPTIONAL
-GitHub: OPTIONAL
+Name: Mahadevaswamy H S
+
 ```
 
