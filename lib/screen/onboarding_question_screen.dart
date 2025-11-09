@@ -265,107 +265,118 @@ class _OnboardingQuestionScreenState
       backgroundColor: AppTheme.bg,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Column(
-          children: [
-            StepHeader(
-              step: 2,
-              total: 2,
-              onBack: () => Navigator.pop(context),
-              onClose: () => Navigator.pop(context),
-            ),
-
-            const SizedBox(height: 12),
-
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                'Tell us about your hosting experience',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 30,
+          ),
+          child: Column(
+            children: [
+              StepHeader(
+                step: 2,
+                total: 2,
+                onBack: () => Navigator.pop(context),
+                onClose: () => Navigator.pop(context),
               ),
-            ),
 
-            const SizedBox(height: 8),
+              const SizedBox(height: 12),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: TextField(
-                controller: _textController,
-                maxLines: 4,
-                minLines: 4,
-                maxLength: 600,
-                decoration: const InputDecoration(
-                  labelText: 'Write your answer (max 600 chars)',
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Tell us about your hosting experience',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: AudioRecorderWidget(
-                isRecording: media.isRecordingAudio,
-                dbLevel: _dbLevel,
-                elapsed: _elapsed,
-                audioPath: media.audioPath,
-                onStart: _startAudio,
-                onStop: _stopAudio,
-                onCancel: _cancelAudio,
-                onPlay: media.audioPath != null
-                    ? () => _playAudio(media.audioPath!)
-                    : null,
-                onDelete: _deleteAudio,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: _textController,
+                  maxLines: 4,
+                  minLines: 4,
+                  maxLength: 600,
+                  decoration: const InputDecoration(
+                    labelText: 'Write your answer (max 600 chars)',
+                  ),
+                ),
               ),
-            ),
 
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: VideoRecorderWidget(
-                cameraController: _camera,
-                videoPlayerController: _videoPlayer,
-                isRecording: media.isRecordingVideo,
-                videoPath: media.videoPath,
-                onStart: _startVideo,
-                onStop: _stopVideo,
-                onDelete: _deleteVideo,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: AudioRecorderWidget(
+                  isRecording: media.isRecordingAudio,
+                  dbLevel: _dbLevel,
+                  elapsed: _elapsed,
+                  audioPath: media.audioPath,
+                  onStart: _startAudio,
+                  onStop: _stopAudio,
+                  onCancel: _cancelAudio,
+                  onPlay: media.audioPath != null
+                      ? () => _playAudio(media.audioPath!)
+                      : null,
+                  onDelete: _deleteAudio,
+                ),
               ),
-            ),
 
-            const Spacer(),
+              const SizedBox(height: 16),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                20,
-                0,
-                20,
-                MediaQuery.of(context).viewInsets.bottom > 0 ? 8 : 22,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.33,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 5,
+                  ),
+                  child: VideoRecorderWidget(
+                    cameraController: _camera,
+                    videoPlayerController: _videoPlayer,
+                    isRecording: media.isRecordingVideo,
+                    videoPath: media.videoPath,
+                    onStart: _startVideo,
+                    onStop: _stopVideo,
+                    onDelete: _deleteVideo,
+                  ),
+                ),
               ),
-              child: GradientButton(
-                label: 'Submit',
-                onPressed: allowSubmit
-                    ? () {
-                        final payload = {
-                          'text': text,
-                          'audioPath': media.audioPath,
-                          'videoPath': media.videoPath,
-                        };
-                        print('Screen 2 state => $payload');
 
-                        _resetAllState(); // ✅ clear everything
+              SizedBox(height: 20),
 
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SubmissionSuccessScreen(),
-                          ),
-                        );
-                      }
-                    : null,
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  20,
+                  0,
+                  20,
+                  MediaQuery.of(context).viewInsets.bottom > 0 ? 8 : 22,
+                ),
+                child: GradientButton(
+                  label: 'Submit',
+                  onPressed: allowSubmit
+                      ? () {
+                          final payload = {
+                            'text': text,
+                            'audioPath': media.audioPath,
+                            'videoPath': media.videoPath,
+                          };
+                          print('Screen 2 state => $payload');
+
+                          _resetAllState(); // ✅ clear everything
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const SubmissionSuccessScreen(),
+                            ),
+                          );
+                        }
+                      : null,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

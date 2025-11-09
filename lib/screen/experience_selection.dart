@@ -16,7 +16,7 @@ class ExperienceSelectionFigmaScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncExperiences = ref.watch(experiencesProvider);
     final state = ref.watch(onboardingStateProvider);
-    final notifier = ref.read(onboardingStateProvider.notifier);
+    final notifier = ref.read(onboardingStateProvider.notifier);git
 
     return Scaffold(
       backgroundColor: AppTheme.bg,

@@ -26,70 +26,78 @@ class VideoRecorderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: AppTheme.glass(radius: 18),
-      padding: const EdgeInsets.all(14),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Icon(Icons.videocam, size: 20),
-              const SizedBox(width: 8),
-              const Text(
-                'Video Answer',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const Spacer(),
-              if (videoPath != null)
-                IconButton(
-                  onPressed: onDelete,
-                  icon: const Icon(Icons.delete_outline),
-                ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          if (videoPath == null) ...[
-            if (!(cameraController?.value.isInitialized ?? false))
-              const Text('Camera will preview when recording starts'),
-            const SizedBox(height: 10),
+    final previewHeight = MediaQuery.of(context).size.height * 0.22;
+    return SafeArea(
+      child: Container(
+        decoration: AppTheme.glass(radius: 18),
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          children: [
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: isRecording ? null : onStart,
-                    icon: const Icon(Icons.fiber_manual_record),
-                    label: const Text('Record Video'),
-                  ),
+                const Icon(Icons.videocam, size: 20),
+                const SizedBox(width: 8),
+                const Text(
+                  'Video Answer',
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: isRecording ? onStop : null,
-                    icon: const Icon(Icons.stop),
-                    label: const Text('Stop'),
+                const Spacer(),
+                if (videoPath != null)
+                  IconButton(
+                    onPressed: onDelete,
+                    icon: const Icon(Icons.delete_outline),
                   ),
-                ),
               ],
             ),
-          ] else ...[
-            if (videoPlayerController != null &&
-                videoPlayerController!.value.isInitialized)
-              AspectRatio(
-                aspectRatio: videoPlayerController!.value.aspectRatio,
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    VideoPlayer(videoPlayerController!),
-                    _PlayPauseOverlay(controller: videoPlayerController!),
-                  ],
-                ),
-              )
-            else
-              const Text('Video loaded'),
+
+            const SizedBox(height: 12),
+
+            if (videoPath == null) ...[
+              if (!(cameraController?.value.isInitialized ?? false))
+                const Text('Camera will preview when recording starts'),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: isRecording ? null : onStart,
+                      icon: const Icon(Icons.fiber_manual_record),
+                      label: const Text('Record Video'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: isRecording ? onStop : null,
+                      icon: const Icon(Icons.stop),
+                      label: const Text('Stop'),
+                    ),
+                  ),
+                ],
+              ),
+            ] else ...[
+              SizedBox(
+                height: previewHeight, // ✅ prevents overflow
+                child:
+                    (videoPlayerController != null &&
+                        videoPlayerController!.value.isInitialized)
+                    ? AspectRatio(
+                        aspectRatio: videoPlayerController!.value.aspectRatio,
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            VideoPlayer(videoPlayerController!),
+                            _PlayPauseOverlay(
+                              controller: videoPlayerController!,
+                            ),
+                          ],
+                        ),
+                      )
+                    : const Center(child: CircularProgressIndicator()),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -101,19 +109,25 @@ class _PlayPauseOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () =>
-          controller.value.isPlaying ? controller.pause() : controller.play(),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 150),
-        child: controller.value.isPlaying
-            ? const SizedBox.shrink()
-            : Container(
-                color: Colors.black26,
-                child: const Center(
-                  child: Icon(Icons.play_arrow, size: 50, color: Colors.white),
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () =>
+            controller.value.isPlaying ? controller.pause() : controller.play(),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 150),
+          child: controller.value.isPlaying
+              ? const SizedBox.shrink()
+              : Container(
+                  color: Colors.black26,
+                  child: const Center(
+                    child: Icon(
+                      Icons.play_arrow,
+                      size: 50,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }
